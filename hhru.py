@@ -1,12 +1,12 @@
 import requests
 from abc import ABC, abstractmethod
 
+
+LINK = 'https://api.hh.ru/vacancies'
 class BasicClass(ABC):
     @abstractmethod
     def my_method(self):
         pass
-
-LINK = 'https://api.hh.ru/vacancies'
 
 class HH_API(BasicClass):
     """Класс для скрайбинга сайта HH
@@ -47,19 +47,15 @@ class HH_API(BasicClass):
 def hh_vacancy():
     hh = HH_API()
     hh_vacancies = hh.get_request(count=20)
-    companies = [item['employer']['name'] for item in hh_vacancies[:10]]
+    companies = {item['employer']['name'] for item in hh_vacancies[:10]}
     return hh_vacancies[:10], companies
 
 vacancies, companies = hh_vacancy()
 
-for company in companies:
-    print(f"Компания:\n{company}\n")
+for i in range(1, 11):
+    company_input = input(f"Введите название компании ({i}/10): ")
     hh = HH_API()
-    hh_vacancies = hh.get_request(count=20, company_name=company)
+    hh_vacancies = hh.get_request(count=20, company_name=company_input)
+    print(f"Вакансии для компании '{company_input}':")
     for vacancy in hh_vacancies[:10]:
-        print(f"вакансии:\n{vacancy}\n")
-    print()
-
-
-
-
+        print(f"\n{vacancy}")
