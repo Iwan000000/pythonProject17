@@ -53,12 +53,12 @@ def create_table():
     conn.autocommit = True
     cur = conn.cursor()
 
-    cur.execute("DROP DATABASE IF EXISTS course_work_5")
-    cur.execute("CREATE DATABASE course_work_5")
+    cur.execute("DROP DATABASE IF EXISTS coursework")
+    cur.execute("CREATE DATABASE coursework")
 
     conn.close()
 
-    conn = psycopg2.connect(host="localhost", database="course_work_5",
+    conn = psycopg2.connect(host="localhost", database="coursework",
                             user="postgres", password="1379")
     with conn.cursor() as cur:
         cur.execute("""
@@ -85,7 +85,7 @@ def create_table():
 def add_to_table(employers_list):
     """Заполнение базы данных компании и вакансии"""
 
-    with psycopg2.connect(host="localhost", database="course_work_5",
+    with psycopg2.connect(host="localhost", database="coursework",
                           user="postgres", password="1379") as conn:
         with conn.cursor() as cur:
             cur.execute('TRUNCATE TABLE employers, vacancies RESTART IDENTITY;')
