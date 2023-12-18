@@ -1,12 +1,15 @@
-from DBManager import DBManager
-from hhru import create_table, add_to_table
-
+from DBManager import DBManager, create_table, add_to_table
+from hhru import get_vacancies, get_employer
+from config import config
 
 def main():
     employers_list = [1740,1455, 15478, 8620, 3529, 4006, 4504679, 561525, 4181, 4608157]
-    dbmanager = DBManager()
-    create_table()
-    add_to_table(employers_list)
+
+    params = config()
+
+    create_table("coursework", params)
+    add_to_table(employers_list, "coursework", params)
+    dbmanager = DBManager(params)
 
 
     while True:
@@ -22,6 +25,7 @@ def main():
         )
 
         if task.lower() == "стоп":
+            print(dbmanager.stop())
             break
         elif task == '1':
             print(dbmanager.get_companies_and_vacancies_count())
